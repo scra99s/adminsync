@@ -3,7 +3,7 @@
   <id>adminsync</id>
   <name>Admin Sync</name>
   <description>Sync admin group based on SAML group</description>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <licence>AGPL</licence>
   <author>Scra99s</author>
   <namespace>AdminSync</namespace>
