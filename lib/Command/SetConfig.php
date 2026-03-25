@@ -22,8 +22,8 @@ class SetConfig extends Command {
     protected function configure(): void {
         $this
             ->setDescription('Set AdminSync app configuration')
-            ->addArgument('key', InputArgument::REQUIRED, 'The config key')
-            ->addArgument('value', InputArgument::REQUIRED, 'The value (JSON array)');
+            ->addArgument('key', InputArgument::REQUIRED, 'Config key')
+            ->addArgument('value', InputArgument::REQUIRED, 'Config value (JSON array)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -31,7 +31,6 @@ class SetConfig extends Command {
         $value = $input->getArgument('value');
 
         $this->config->setAppValue('adminsync', $key, $value);
-
         $output->writeln("Set $key = $value");
 
         return Command::SUCCESS;

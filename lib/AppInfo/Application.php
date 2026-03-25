@@ -24,12 +24,9 @@ class Application extends App implements IBootstrap {
         parent::__construct(self::APP_ID);
     }
 
-    /**
-     * Register services (DI container wiring)
-     */
     public function register(IRegistrationContext $context): void {
 
-        // Register service
+        // Register the service
         $context->registerService(AdminSyncService::class, function ($c) {
             return new AdminSyncService(
                 $c->get(\OCP\IGroupManager::class),
@@ -37,7 +34,7 @@ class Application extends App implements IBootstrap {
             );
         });
 
-        // Register listener
+        // Register the listener
         $context->registerService(LoginListener::class, function ($c) {
             return new LoginListener(
                 $c->get(AdminSyncService::class),
@@ -46,7 +43,7 @@ class Application extends App implements IBootstrap {
             );
         });
 
-        // Register controller
+        // Register the settings controller
         $context->registerService(SettingsController::class, function ($c) {
             return new SettingsController(
                 self::APP_ID,
@@ -55,7 +52,7 @@ class Application extends App implements IBootstrap {
             );
         });
 
-        // Register OCC command
+        // ✅ Register OCC command
         $context->registerService(SetConfig::class, function ($c) {
             return new SetConfig(
                 $c->get(\OCP\IConfig::class)
@@ -64,16 +61,10 @@ class Application extends App implements IBootstrap {
         $context->registerCommand(SetConfig::class);
     }
 
-    /**
-     * Runtime boot logic
-     */
     public function boot(IBootContext $context): void {
-
+        // Add login hook
         $container = $context->getServerContainer();
-
-        /** @var IEventDispatcher $dispatcher */
         $dispatcher = $container->get(IEventDispatcher::class);
-
         $dispatcher->addServiceListener(
             PostLoginEvent::class,
             LoginListener::class
