@@ -70,11 +70,11 @@ class LoginListener implements IEventListener {
       );
 
     } catch (\Throwable $e) {
-        // Never break login flow
-        $this->logger->error('AdminSync: Exception during login sync', [
-          'exception' => $e->getMessage(),
-          'trace' => $e->getTraceAsString()
-        ]);
+      // Never break login flow
+      $this->logger->error('AdminSync: Exception during login sync', [
+        'exception' => $e->getMessage(),
+        'trace' => $e->getTraceAsString()
+      ]);
     }
   }
 
