@@ -7,6 +7,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
+
 use OCP\Console\IConsole;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\User\Events\PostLoginEvent;
@@ -33,7 +34,7 @@ class Application extends App implements IBootstrap {
             );
         });
 
-        // Register the login listener
+        // Register the login listener as a service
         $context->registerService(LoginListener::class, function($c) {
             return new LoginListener(
                 $c->get(AdminSyncService::class),
@@ -42,7 +43,7 @@ class Application extends App implements IBootstrap {
             );
         });
 
-        // Register the OCC command
+        // Register the OCC command as a service (do NOT call registerCommand here)
         $context->registerService(SetConfig::class, function($c) {
             return new SetConfig($c->get(\OCP\IConfig::class));
         });
@@ -51,12 +52,11 @@ class Application extends App implements IBootstrap {
     public function boot(IBootContext $context): void {
         $container = $context->getServerContainer();
 
-        // Register login event
-        /** @var IEventDispatcher $dispatcher */
+        // Register the login listener to PostLoginEvent
         $dispatcher = $container->get(IEventDispatcher::class);
         $dispatcher->addServiceListener(PostLoginEvent::class, LoginListener::class);
 
-        // Register OCC command
+        // Register the OCC command correctly
         /** @var IConsole $console */
         $console = $container->get(IConsole::class);
         $console->addCommand($container->get(SetConfig::class));
