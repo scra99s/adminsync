@@ -1,0 +1,10 @@
+{
+  "name": "adminsync/app",
+  "description": "Admin sync app",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "OCA\\AdminSync\\": "lib/"
+    }
+  }
+}
