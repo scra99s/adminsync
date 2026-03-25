@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace OCA\AdminSync\Service;
 
 use OCP\IGroupManager;
@@ -19,6 +20,7 @@ class AdminSyncService {
         $uid = $user->getUID();
         $userGroups = $this->groupManager->getUserGroupIds($user);
         $adminGroup = $this->groupManager->get('admin');
+
         if (!$adminGroup) {
             $this->logger->error('AdminSync: Admin group not found');
             return;
@@ -32,6 +34,7 @@ class AdminSyncService {
             $adminGroup->addUser($user);
             $this->logger->info('AdminSync: Added user to admin', ['user' => $uid]);
         }
+
         if (!$isInAdminGroup && $isAdmin && !$isProtected) {
             $adminGroup->removeUser($user);
             $this->logger->warning('AdminSync: Removed user from admin', ['user' => $uid]);

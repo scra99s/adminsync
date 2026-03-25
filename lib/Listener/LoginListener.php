@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace OCA\AdminSync\Listener;
 
 use OCP\EventDispatcher\Event;
@@ -22,9 +23,15 @@ class LoginListener implements IEventListener {
     }
 
     public function handle(Event $event): void {
-        if (!($event instanceof PostLoginEvent)) return;
+        if (!($event instanceof PostLoginEvent)) {
+            return;
+        }
+
         $user = $event->getUser();
-        if (!$user) return;
+        if (!$user) {
+            $this->logger->warning('AdminSync: Login event without user');
+            return;
+        }
 
         $adminGroups = json_decode($this->config->getAppValue('adminsync', 'admin_groups', '[]'), true) ?: [];
         $protectedAdmins = json_decode($this->config->getAppValue('adminsync', 'protected_admins', '[]'), true) ?: [];

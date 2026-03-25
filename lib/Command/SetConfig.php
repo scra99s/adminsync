@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace OCA\AdminSync\Command;
 
 use OCP\IConfig;
@@ -26,8 +27,12 @@ class SetConfig extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
-        $this->config->setAppValue('adminsync', $input->getArgument('key'), $input->getArgument('value'));
-        $output->writeln("Set {$input->getArgument('key')} = {$input->getArgument('value')}");
+        $key = $input->getArgument('key');
+        $value = $input->getArgument('value');
+
+        $this->config->setAppValue('adminsync', $key, $value);
+        $output->writeln("Set $key = $value");
+
         return Command::SUCCESS;
     }
 }
