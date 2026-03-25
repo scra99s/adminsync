@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<info>
+  <id>adminsync</id>
+  <name>Admin Sync</name>
+  <description>Sync admin group based on SAML group</description>
+  <version>0.0.5</version>
+  <licence>AGPL</licence>
+  <author>Scra99s</author>
+  <namespace>AdminSync</namespace>
+  <category>tools</category>
+</info>
